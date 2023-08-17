@@ -7,7 +7,6 @@
 #include <dirent.h>
 int main (void);
 void executor(char **tokens, char **aux);
-char* getenvpath(const char* name);
 void whicher(char **tokens, char **aux);
 void quitarsalto(char *line);
 char *backtothepath();
