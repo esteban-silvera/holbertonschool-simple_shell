@@ -10,3 +10,4 @@ void executor(char **tokens, char **aux);
 void whicher(char **tokens, char **aux);
 void quitarsalto(char *line);
 char *backtothepath();
+void free_tokens(char **tokens);
