@@ -1,6 +1,7 @@
 # Simple Shell
-Exshellent.c
+
 ![siMple](https://github.com/esteban-silvera/holbertonschool-simple_shell/assets/135636931/4d036f18-670f-4bf1-8c50-160facc9eaf8)
+
 
 Simple Shell is a basic command-line interpreter written in c.
 It provides a minimalistic interface for executing commands on your system.
