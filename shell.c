@@ -36,7 +36,7 @@ void free_tokens(char **tokens)
  **/
 
 int main(void)
-{	int ntok = 0, i = 0, checker = 0;
+{	int ntok = 0, i = 0;
 	char *prompt = "#:D ", *delim = " \n\t", *line = NULL, *tokens[MAX] = {0};
 	char *tok, *aux;
 	ssize_t read;
@@ -65,9 +65,9 @@ int main(void)
 	{
 	free_tokens(tokens);
 	break; }
-	checker = stat(tokens[0], &check);
-	if (checker == 0)
+	if (stat(tokens[0], &check) == 0)
 	{
+	aux = strdup(tokens[0]);
 	executor(tokens, &aux); }
 	else
 	{
@@ -110,18 +110,20 @@ char *backtothepath()
 void executor(char **tokens, char **aux)
 {
 	pid_t childpid;
-	int status;
-
+	int status, i = 0;
+	
 	childpid = fork();
-	if (childpid == 0)
-	{
-		execv(*aux, tokens);
-	} else if (childpid > 0)
-	{
-	wait(&status);
+	if (childpid == 0) {
+	while (tokens[i]) {
+	i++;
 	}
-	else
-	{
+	if (execve(*aux, tokens, environ) == -1) {
+	}
+	} else if (childpid > 0) {
+	wait(&status);	
+	free(*aux);
+    
+	} else {
 	printf("ERROR CANT FORK\n");
 	exit(0);
 	}
@@ -173,10 +175,14 @@ void whicher(char **tokens, char **aux)
 	}
 	if (checks == -1)
 	{
+	aux = NULL;
 	printf("command error whicher\n");
 	}
 	free_tokens(tokensp);
+	
+	if (aux) 
+	{
 	executor(tokens, aux);
-	free(sh);
+	}
 	free(path_copy);
 }
