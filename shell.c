@@ -111,19 +111,25 @@ void executor(char **tokens, char **aux)
 {
 	pid_t childpid;
 	int status, i = 0;
-	
+
 	childpid = fork();
-	if (childpid == 0) {
-	while (tokens[i]) {
+	if (childpid == 0)
+	{
+	while (tokens[i])
+	{
 	i++;
 	}
-	if (execve(*aux, tokens, environ) == -1) {
+	if (execve(*aux, tokens, environ) == -1)
+	{
 	}
-	} else if (childpid > 0) {
-	wait(&status);	
+	}
+	else if (childpid > 0)
+	{
+	wait(&status);
 	free(*aux);
-    
-	} else {
+	}
+	else
+	{
 	printf("ERROR CANT FORK\n");
 	exit(0);
 	}
@@ -142,8 +148,7 @@ void executor(char **tokens, char **aux)
 void whicher(char **tokens, char **aux)
 {
 	struct stat check;
-	char *path_copy, *sh;
-	char *toks;
+	char *path_copy, *sh, *toks;
 	char *tokensp[MAX] = {0};
 	char *slash = "/";
 	ssize_t checks = 0;
@@ -176,13 +181,10 @@ void whicher(char **tokens, char **aux)
 	if (checks == -1)
 	{
 	aux = NULL;
-	printf("command error whicher\n");
-	}
+	printf("command error whicher\n"); }
 	free_tokens(tokensp);
-	
-	if (aux) 
+	if (aux)
 	{
-	executor(tokens, aux);
-	}
+	executor(tokens, aux); }
 	free(path_copy);
 }
