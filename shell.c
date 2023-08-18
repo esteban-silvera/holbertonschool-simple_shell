@@ -44,8 +44,8 @@ int main(void)
 	struct stat check;
 
 	while (1)
-	{	isatty(n);
-	memset(tokens, 0, sizeof(tokens));
+	{	memset(tokens, 0, sizeof(tokens));
+	n = isatty(STDIN_FILENO);
 	if (n)
 		printf("%s", prompt);
 	read = getline(&line, &len, stdin);
@@ -64,9 +64,8 @@ int main(void)
 	tokens[i] = NULL;
 	i++;
 	if (strcmp(tokens[0], "exit") == 0)
-	{
-	free_tokens(tokens);
-	break; }
+	{	free_tokens(tokens);
+		break; }
 	if (stat(tokens[0], &check) == 0)
 	{
 	aux = strdup(tokens[0]);
