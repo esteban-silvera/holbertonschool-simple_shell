@@ -36,7 +36,7 @@ void free_tokens(char **tokens)
  **/
 
 int main(void)
-{	int ntok = 0, i = 0;
+{	int ntok = 0, i = 0, n = 0;
 	char *prompt = "#:D ", *delim = " \n\t", *line = NULL, *tokens[MAX] = {0};
 	char *tok, *aux;
 	ssize_t read;
@@ -44,11 +44,13 @@ int main(void)
 	struct stat check;
 
 	while (1)
-	{	memset(tokens, 0, sizeof(tokens));
-	printf("%s", prompt);
+	{	isatty(n);
+	memset(tokens, 0, sizeof(tokens));
+	if (n)
+		printf("%s", prompt);
 	read = getline(&line, &len, stdin);
 	if (read == -1)
-	return (127);
+		return (0);
 	quitarsalto(line);
 	tok = strtok(line, delim);
 	if (tok == NULL)
