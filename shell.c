@@ -36,47 +36,40 @@ void free_tokens(char **tokens)
  **/
 
 int main(void)
-{	int ntok = 0, i = 0, n = 0;
-	char *prompt = "#:D ", *delim = " \n\t", *line = NULL, *tokens[MAX] = {0};
-	char *tok, *aux;
-	ssize_t read;
+{	int ntok = 0, i = 0;
+	char *prompt = "#:D ", *delim = " \n\t", *tokens[MAX] = {0};
+	char *tok, *aux, *line = NULL;
 	size_t len = 0;
 	struct stat check;
 
-	while (1)
-	{	memset(tokens, 0, sizeof(tokens));
-	n = isatty(STDIN_FILENO);
-	if (n)
-		printf("%s", prompt);
-	read = getline(&line, &len, stdin);
-	if (read == -1)
-		return (0);
-	quitarsalto(line);
-	tok = strtok(line, delim);
-	if (tok == NULL)
-	continue;
-	while (tok != NULL && i < MAX)
+	while (memset(tokens, 0, sizeof(tokens)) || 1)
 	{
-	ntok++;
-	tokens[i] = strdup(tok);
-	tok = strtok(NULL, delim);
-	i++; }
-	tokens[i] = NULL;
-	i++;
-	if (strcmp(tokens[0], "exit") == 0)
-	{	free_tokens(tokens);
-		break; }
-	if (stat(tokens[0], &check) == 0)
-	{
-	aux = strdup(tokens[0]);
-	executor(tokens, &aux); }
-	else
-	{
-	whicher(tokens, &aux); }
-	free_tokens(tokens);
-	i = 0; }
+		isatty(STDIN_FILENO) ? printf("%s", prompt) : 0;
+		if (getline(&line, &len, stdin) == -1)
+			break;
+		quitarsalto(line), tok = strtok(line, delim);
+		if (tok == NULL)
+			continue;
+		while (tok != NULL && i < MAX)
+		{
+			ntok++, tokens[i] = strdup(tok);
+			tok = strtok(NULL, delim), i++;
+		}
+		tokens[i] = NULL, i++;
+		if (strcmp(tokens[0], "exit") == 0)
+		{
+			free_tokens(tokens);
+			break;
+		}
+		if (stat(tokens[0], &check) == 0)
+			aux = strdup(tokens[0]), executor(tokens, &aux);
+		else
+			whicher(tokens, &aux);
+		free_tokens(tokens), i = 0;
+	}
 	free(line);
-	return (0); }
+	return (0);
+}
 
 
 /**
